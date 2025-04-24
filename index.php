@@ -9,7 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ryzyk fizyk</title>
     <link rel="stylesheet" href="styles.css" type="text/css">
-    <link href="files/logo.png" rel="icon">
+    <link href="img/logo.png" rel="icon">
+    <link href="img/logo.png" rel="apple-touch-icon">
 </head>
 <body>
     
