@@ -1,19 +1,41 @@
 <?php
 $conn = mysqli_connect("localhost", "root", "", "ryzyk_fizyk");
-if (!$conn)
+if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
-
-$userNames = ['alan', 'kebab']; // Example usernames
-$answers = []; // Array to store answers
-
-// Check if a user has submitted an answer
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['answers'])) {
-    $answers = $_POST['answers']; // Get all answers from the form
 }
 
-// Sort answers in ascending order
+
+///sdusdhfyweyf7asb7r6v7nayvbuasastr6vbsub6v6sv6sv7iea7u
+
+$userNames = [];
+foreach ($_GET as $key => $value) {
+    if (strpos($key, 'gracz') === 0) { // Sprawdzenie, czy klucz zaczyna się od 'item'
+        $userNames[] = urldecode($value); // Dekodowanie wartości
+    }
+}
+
+// TODO
+// walidacja ilosci graczy
+// + zapisywanei graczy do localstorage zeby po odsieweniy strony dzialalo
+
+///sdusdhfyweyf7asb7r6v7nayvbuasastr6vbsub6v6sv6sv7iea7u
+
+
+//$userNames = ['alan', 'kebab', 'żyd'];
+$answers = [];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['answers'])) {
+    $answers = $_POST['answers'];
+}
+
 if (!empty($answers)) {
-    asort($answers); // Sort the answers while maintaining key association
+    asort($answers);
+    // Redirect to voting.php with POST data
+    // Since we cannot pass POST data via URL, we will handle it differently
+    // You can store the answers in the session or database if needed
+    session_start();
+    $_SESSION['answers'] = $answers; // Store answers in session
+    header("Location: voting.php");
+    exit();
 }
 ?>
 
@@ -30,7 +52,7 @@ if (!empty($answers)) {
         function hideUserForms() {
             const userForms = document.querySelectorAll('.user-form');
             userForms.forEach(form => {
-                form.style.display = 'none'; // Hide all user forms
+                form.style.display = 'none';
             });
         }
     </script>
@@ -38,8 +60,8 @@ if (!empty($answers)) {
 <body>
     <h1>Ryzyk fizyk</h1>
 
-    <div id="lewy">
-        <h4 id="question">Treść pytania</h4>
+    <div class="box" style="width: 30%; margin: auto; text-align: center;">
+        <h2 id="question">Treść pytania</h2>
 
         <form action="gra.php" method="post" onsubmit="hideUserForms()">
             <?php if (!empty($userNames)): ?>
@@ -55,19 +77,7 @@ if (!empty($answers)) {
             <br><br><input type="submit" value="Prześlij">
         </form>
     </div>
-        
-    <div id="prawy">
-        <?php if (!empty($answers)): ?>
-            <div>
-                <?php foreach ($answers as $user => $answer): ?>
-                    <button><?php echo htmlspecialchars($answer); ?></button>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
-    </div>
 </body>
 </html>
 
-<?php
-mysqli_close($conn);
-?>
+<?php mysqli_close($conn); ?>

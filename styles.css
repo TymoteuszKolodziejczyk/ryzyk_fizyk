@@ -1,4 +1,3 @@
-/* General Styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -15,8 +14,7 @@ h4 {
     color: #555;
 }
 
-/* Container Styles */
-#lewy {
+.box {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
@@ -24,14 +22,6 @@ h4 {
     margin-bottom: 20px;
 }
 
-#prawy {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Form Styles */
 form {
     display: flex;
     flex-direction: column;
@@ -53,7 +43,6 @@ input[type="password"]:focus {
     outline: none;
 }
 
-/* Button Styles */
 input[type="submit"] {
     background-color: #007bff;
     color: white;
@@ -69,9 +58,8 @@ input[type="submit"]:hover {
     background-color: #0056b3;
 }
 
-/* Button for Answers */
 button {
-    background-color: #28a745;
+    background-color: #007bff;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -83,20 +71,80 @@ button {
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #0056b3;
 }
 
-/* Responsive Styles */
 @media (max-width: 600px) {
     body {
         padding: 10px;
     }
 
-    #lewy, #prawy {
-        padding: 15px;
-    }
-
     input[type="password"], input[type="submit"], button {
         font-size: 14px;
     }
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+select, input[type="number"], input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+select {
+    background-color: #fff;
+    color: #333;
+}
+
+input[type="number"] {
+    background-color: #fff;
+    color: #333;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px; 
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: #e9ecef;
+    margin: 5px 0; 
+    padding: 10px;
+    border-radius: 4px;
 }
