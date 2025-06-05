@@ -2,8 +2,8 @@
 session_start();
 $answers = isset($_SESSION['answers']) ? $_SESSION['answers'] : [];
 
-// Define the available player names
-$userNames = ['alan', 'kebab', 'żyd']; // Modify this array as needed
+// Retrieve the player names from the session
+$userNames = isset($_SESSION['userNames']) ? $_SESSION['userNames'] : [];
 
 // Clear existing bets if starting a new game
 if (!isset($_SESSION['bets']) || isset($_POST['new_game'])) {
@@ -95,5 +95,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bet_number']) && isse
             <p>Brak zakładów do wyświetlenia.</p>
         <?php endif; ?>
     </div>
+
+    <?php if (count($_SESSION['bets']) === count($userNames) && !empty($userNames)): ?>
+        <div class="box" style="width: 30%; margin: auto; text-align: center; margin-top: 20px;">
+            <form action="gra.php" method="get">
+                <input type="hidden" name="next_question" value="1"> <!-- Hidden field to indicate fetching the next question -->
+                <input type="submit" value="Zadaj następne pytanie" style="background-color: #007bff; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer;">
+            </form>
+        </div>
+    <?php endif; ?>
 </body>
 </html>

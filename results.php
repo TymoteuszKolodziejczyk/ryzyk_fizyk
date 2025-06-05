@@ -1,14 +1,28 @@
 <?php
 session_start();
-
-// Check if bets are set
 $bets = isset($_SESSION['bets']) ? $_SESSION['bets'] : [];
+$answers = isset($_SESSION['answers']) ? $_SESSION['answers'] : [];
 
-// Reset session values for a new game
-if (isset($_POST['reset'])) {
-    session_destroy(); // Destroy the session to reset all values
-    header("Location: gra.php"); // Redirect to gra.php
-    exit();
+// Retrieve the current question index and answer
+$currentQuestionIndex = $_SESSION['current_question_index'];
+$questions = [
+    ["question" => "What is the capital of France?", "answer" => 1],
+    ["question" => "What is 2 + 2?", "answer" => 4],
+    ["question" => "What is the largest planet in our solar system?", "answer" => 5],
+    // Add more questions and answers as needed
+];
+
+$currentAnswer = $currentQuestionIndex >= 0 ? $questions[$currentQuestionIndex]['answer'] : null;
+
+// Calculate points for each player based on their bets
+$points = [];
+foreach ($bets as $user => $bet) {
+    if ($bet['number'] < $currentAnswer) {
+        // Calculate points based on the difference and the amount bet
+        $points[$user] = ($currentAnswer - $bet['number']) * $bet['amount'];
+    } else {
+        $points[$user] = 0; // No points if the bet is not below the answer
+    }
 }
 ?>
 
@@ -26,7 +40,8 @@ if (isset($_POST['reset'])) {
         <?php if (!empty($bets)): ?>
             <ul>
                 <?php foreach ($bets as $user => $bet): ?>
-                    <li><?php echo htmlspecialchars($user); ?> postawił <?php echo htmlspecialchars($bet['amount']); ?> tokeny na liczbę <?php echo htmlspecialchars($bet['number']); ?></li>
+                    <li><?php echo htmlspecialchars($user); ?> postawił <?php echo htmlspecialchars($bet['amount']); ?> tokeny na liczbę <?php echo htmlspecialchars($bet['number']); ?>. 
+                    Punkty: <?php echo isset($points[$user]) ? htmlspecialchars($points[$user]) : 0; ?></li>
                 <?php endforeach; ?>
             </ul>
         <?php else: ?>
@@ -34,10 +49,18 @@ if (isset($_POST['reset'])) {
         <?php endif; ?>
     </div>
 
-    <div class="box" style="width: 30%; margin: auto; text-align: center; margin-top: 20px;">
-        <form action="results.php" method="post">
-            <input type="submit" name="reset" value="Powrót do gry" style="background-color: #007bff; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer;">
-        </form>
-    </div>
+    <?php if ($currentQuestionIndex >= count($questions)): ?>
+        <div class="box" style="width: 30%; margin: auto; text-align: center; margin-top: 20px;">
+            <h2>Koniec gry!</h2>
+            <p>Dziękujemy za grę!</p>
+        </div>
+    <?php else: ?>
+        <div class="box" style="width: 30%; margin: auto; text-align: center; margin-top: 20px;">
+            <form action="gra.php" method="get">
+                <input type="hidden" name="next_question" value="1"> <!-- Hidden field to indicate fetching the next question -->
+                <input type="submit" value="Zadaj następne pytanie" style="background-color: #007bff; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer;">
+            </form>
+        </div>
+    <?php endif; ?>
 </body>
 </html>

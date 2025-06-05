@@ -18,7 +18,7 @@
         <h2>Krok 1: Podaj liczbę graczy</h3>
         <input type="number" name="l_graczy" id="l_graczy" min="2" max="10">
         <button id="btnLGraczy">Zatwierdź</button>
-        <div id="divNazwyGraczy" style="background-color: red; visibility: hidden">
+        <div id="divNazwyGraczy" style="visibility: hidden">
             <h3>Wprowadź nazwy graczy:</h3>
             <form id="formGracze" action="javascript:;" onsubmit="formGraczeSubmit( this )">
                 
