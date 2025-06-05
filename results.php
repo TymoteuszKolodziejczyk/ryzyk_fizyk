@@ -3,7 +3,7 @@ session_start();
 $bets = isset($_SESSION['bets']) ? $_SESSION['bets'] : [];
 $answers = isset($_SESSION['answers']) ? $_SESSION['answers'] : [];
 
-// Retrieve the current question index and answer
+// Retrieve the current question index
 $currentQuestionIndex = $_SESSION['current_question_index'];
 $questions = [
     ["question" => "What is the capital of France?", "answer" => 1],
@@ -12,7 +12,11 @@ $questions = [
     // Add more questions and answers as needed
 ];
 
-$currentAnswer = $currentQuestionIndex >= 0 ? $questions[$currentQuestionIndex]['answer'] : null;
+// Check if the current question index is valid
+$currentAnswer = null;
+if ($currentQuestionIndex >= 0 && $currentQuestionIndex < count($questions)) {
+    $currentAnswer = $questions[$currentQuestionIndex]['answer'];
+}
 
 // Calculate points for each player based on their bets
 $points = [];
@@ -24,6 +28,9 @@ foreach ($bets as $user => $bet) {
         $points[$user] = 0; // No points if the bet is not below the answer
     }
 }
+
+// Clear bets after displaying results
+unset($_SESSION['bets']);
 ?>
 
 <!DOCTYPE html>

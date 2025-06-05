@@ -95,10 +95,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bet_number']) && isse
             <p>Brak zakładów do wyświetlenia.</p>
         <?php endif; ?>
     </div>
-
     <?php if (count($_SESSION['bets']) === count($userNames) && !empty($userNames)): ?>
         <div class="box" style="width: 30%; margin: auto; text-align: center; margin-top: 20px;">
-            <form action="gra.php" method="get">
+            <form action="results.php" method="get">
                 <input type="hidden" name="next_question" value="1"> <!-- Hidden field to indicate fetching the next question -->
                 <input type="submit" value="Zadaj następne pytanie" style="background-color: #007bff; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer;">
             </form>
@@ -106,3 +105,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bet_number']) && isse
     <?php endif; ?>
 </body>
 </html>
+
