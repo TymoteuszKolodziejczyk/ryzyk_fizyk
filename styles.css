@@ -57,6 +57,15 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #0056b3;
 }
+input[type="submit"]:disabled {
+    background-color: #cccccc; /* Szary kolor tła */
+    color: #666666; /* Szary kolor tekstu */
+    cursor: not-allowed; /* Zmiana kursora na "nie dozwolone" */
+    opacity: 0.6; /* Zmniejszenie przezroczystości */
+}
+input[type="submit"]:hover:disabled {
+    background-color: #cccccc;
+}
 
 button {
     background-color: #007bff;

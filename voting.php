@@ -12,6 +12,9 @@ if (empty($betPoints)) {
 }
 echo json_encode($betPoints);
 
+echo "<script>const userNames = " . json_encode($userNames) . "</script>";
+echo "<script>const betPoints = " . json_encode($betPoints) . "</script>";
+
 
 // Clear existing bets if starting a new game
 if (!isset($_SESSION['bets']) || isset($_POST['new_game'])) {
@@ -70,11 +73,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bet_number']) && isse
         <h2>Postaw zakład</h2>
         <form action="voting.php" method="post">
             <label for="user_name">Wybierz gracza:</label>
-            <select name="user_name" id="user_name" required>
+            <select name="user_name" id="user_name" required onchange="enableSubmitButton();showBetPoints(this)">
+                <option value="-" selected disabled>---</option>
                 <?php foreach ($usersNotVoted as $name): ?>
                     <option value="<?php echo htmlspecialchars($name); ?>"><?php echo htmlspecialchars($name); ?></option>
                 <?php endforeach; ?>
             </select>
+            <span id="spanBetPoints">Tego tekstu na razie nie powinno byc...</span>
             <br><br>
             <label for="bet_number">Wybierz numer:</label>
             <select name="bet_number" id="bet_number" required>
@@ -90,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bet_number']) && isse
             <label for="bet_amount">Liczba tokenów:</label>
             <input type="number" name="bet_amount" id="bet_amount" min="1" required>
             <br><br>
-            <input type="submit" value="Postaw zakład">
+            <input type="submit" value="Postaw zakład" id="submitBet" disabled>
         </form>
     </div>
 
@@ -116,4 +121,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bet_number']) && isse
     <?php endif; ?>
 </body>
 </html>
+<script>
 
+function enableSubmitButton(){
+    document.getElementById("submitBet").disabled = false;
+}
+function showBetPoints(select){
+    const selectedUser = select.value;
+    const userIndex = 
+    document.getElementById("spanBetPoints").value = "Tokeny: ";
+}
+</script>
