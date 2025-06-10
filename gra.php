@@ -25,14 +25,6 @@ if ($result->num_rows > 0) {
     echo "Brak wyników";
     exit(); // Zakończ skrypt, jeśli nie ma pytań
 }
-/*  
-// Define an array of questions with answers
-$questions = [
-    ["question" => "What is the capital of France?", "answer" => 1],
-    ["question" => "What is 2 + 2?", "answer" => 4],
-    ["question" => "What is the largest planet in our solar system?", "answer" => 5],
-    // Add more questions and answers as needed
-];*/
 
 // Store the current question index in the session
 if (!isset($_SESSION['current_question_index'])) {
@@ -98,11 +90,11 @@ if (!empty($answers)) {
         <?php endif; ?>
 
         <form action="gra.php" method="post">
-            <?php if (!empty($_SESSION['userNames'])): ?>
-                <?php foreach ($_SESSION['userNames'] as $userName): ?>
+            <?php $playerCount=0; if (!empty($_SESSION['userNames'])): ?>
+                <?php foreach ($_SESSION['userNames'] as $userName): $playerCount++;?>
                     <div class="user-form">
                         <h4><?php echo htmlspecialchars($userName); ?></h4>
-                        <input type="number" name="answers[<?php echo htmlspecialchars($userName); ?>]" required placeholder="Wpisz liczbę" autocomplete="off">
+                        <input type="password" name="answers[<?php echo htmlspecialchars($userName); ?>]" required placeholder="Wpisz liczbę" autocomplete="off" class="answerInput" onfocus="showInput(this)" onfocusout="hideAnswer(this)">
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -113,5 +105,15 @@ if (!empty($answers)) {
     </div>
 </body>
 </html>
+<script>
+    const playerCount = <?php echo $playerCount ?>;
+    const anwerInputs = document.getElementsByClassName('answerInput');
 
+    function showInput(input){
+        input.type = "number"
+    }
+    function hideAnswer(input){
+        input.type = "password"
+    }
+</script>
 <?php mysqli_close($conn); ?>

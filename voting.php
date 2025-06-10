@@ -4,6 +4,14 @@ $answers = isset($_SESSION['answers']) ? $_SESSION['answers'] : [];
 
 // Retrieve the player names from the session
 $userNames = isset($_SESSION['userNames']) ? $_SESSION['userNames'] : [];
+$betPoints = isset($_SESSION['betPoints']) ? $_SESSION['betPoints'] : [];
+
+if (empty($betPoints)) {
+    $betPoints = array_fill(0, count($userNames), 1);
+    $_SESSION['betPoints'] = $betPoints;
+}
+echo json_encode($betPoints);
+
 
 // Clear existing bets if starting a new game
 if (!isset($_SESSION['bets']) || isset($_POST['new_game'])) {
