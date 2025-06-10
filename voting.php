@@ -17,6 +17,9 @@ echo json_encode($betPoints);
 if (!isset($_SESSION['bets']) || isset($_POST['new_game'])) {
     $_SESSION['bets'] = [];
 }
+$usersNotVoted = array_filter($userNames, function($name) {
+    return !isset($_SESSION['bets'][$name]);
+});
 
 // Handle the betting form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bet_number']) && isset($_POST['bet_amount']) && isset($_POST['user_name'])) {
@@ -68,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bet_number']) && isse
         <form action="voting.php" method="post">
             <label for="user_name">Wybierz gracza:</label>
             <select name="user_name" id="user_name" required>
-                <?php foreach ($userNames as $name): ?>
+                <?php foreach ($usersNotVoted as $name): ?>
                     <option value="<?php echo htmlspecialchars($name); ?>"><?php echo htmlspecialchars($name); ?></option>
                 <?php endforeach; ?>
             </select>
