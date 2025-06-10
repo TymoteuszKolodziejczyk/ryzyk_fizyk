@@ -6,6 +6,8 @@ $answers = isset($_SESSION['answers']) ? $_SESSION['answers'] : [];
 $userNames = isset($_SESSION['userNames']) ? $_SESSION['userNames'] : [];
 $betPoints = isset($_SESSION['betPoints']) ? $_SESSION['betPoints'] : [];
 
+// obsluga ze jak user ma 0 pkt to dodac 1
+
 if (empty($betPoints)) {
     $betPoints = array_fill(0, count($userNames), 1);
     $_SESSION['betPoints'] = $betPoints;
@@ -79,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bet_number']) && isse
                     <option value="<?php echo htmlspecialchars($name); ?>"><?php echo htmlspecialchars($name); ?></option>
                 <?php endforeach; ?>
             </select>
-            <span id="spanBetPoints">Tego tekstu na razie nie powinno byc...</span>
+            <span id="spanBetPoints"></span>
             <br><br>
             <label for="bet_number">Wybierz numer:</label>
             <select name="bet_number" id="bet_number" required>
@@ -93,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bet_number']) && isse
             </select>
             <br><br>
             <label for="bet_amount">Liczba tokenów:</label>
-            <input type="number" name="bet_amount" id="bet_amount" min="1" required>
+            <input type="number" name="bet_amount" id="bet_amount" min="1" required disabled onblur="validateBetAmount(this)">
             <br><br>
             <input type="submit" value="Postaw zakład" id="submitBet" disabled>
         </form>
@@ -125,10 +127,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bet_number']) && isse
 
 function enableSubmitButton(){
     document.getElementById("submitBet").disabled = false;
+    document.getElementById("bet_amount").disabled = false;
 }
 function showBetPoints(select){
     const selectedUser = select.value;
-    const userIndex = 
-    document.getElementById("spanBetPoints").value = "Tokeny: ";
+    const userIndex = userNames.indexOf(selectedUser);
+    const availablePoints = betPoints[userIndex];
+    document.getElementById("spanBetPoints").innerHTML = "Tokeny: " + availablePoints;
+
+    const inputBetAmount = document.getElementById("bet_amount");
+    inputBetAmount.max = availablePoints;
+}
+
+function validateBetAmount(input){
+    if(input.value > parseInt(input.max)){
+        input.value = input.max;
+    }
+    if(input.value < 0){
+        input.value = 0;
+    }
 }
 </script>
