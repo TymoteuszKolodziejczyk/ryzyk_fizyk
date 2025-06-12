@@ -1,30 +1,32 @@
 <?php
 session_start();
+require_once "questions.php";
 $conn = mysqli_connect("localhost", "root", "", "ryzyk_fizyk");
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
 
-$sql = "SELECT IdQuestion, Content, Answer FROM questions";
-$result = $conn->query($sql);
+// $sql = "SELECT IdQuestion, Content, Answer FROM questions";
+// $result = $conn->query($sql);
 
-// Inicjalizacja tablicy
-$questions = [];
+// // Inicjalizacja tablicy
+// $questions = [];
 
-// Sprawdzanie, czy są wyniki
-if ($result->num_rows > 0) {
-    // Pobieranie danych i dodawanie do tablicy
-    while ($row = $result->fetch_assoc()) {
-        $questions[] = [
-            "question" => $row['Content'],
-            "answer" => $row['Answer']
-        ];
-    }
-} else {
-    echo "Brak wyników";
-    exit(); // Zakończ skrypt, jeśli nie ma pytań
-}
+// // Sprawdzanie, czy są wyniki
+// if ($result->num_rows > 0) {
+//     // Pobieranie danych i dodawanie do tablicy
+//     while ($row = $result->fetch_assoc()) {
+//         $questions[] = [
+//             "question" => $row['Content'],
+//             "answer" => $row['Answer']
+//         ];
+//     }
+// } else {
+//     echo "Brak wyników";
+//     exit(); // Zakończ skrypt, jeśli nie ma pytań
+// }
+
 
 // Store the current question index in the session
 if (!isset($_SESSION['current_question_index'])) {
@@ -40,7 +42,9 @@ if (isset($_GET['next_question'])) {
 }
 
 // Reset the question index if it exceeds the number of questions
-if ($_SESSION['current_question_index'] >= count($questions)) {
+$nuberOfRounds = count($questions);
+// $nuberOfRounds = 5;
+if ($_SESSION['current_question_index'] >= $nuberOfRounds) {
     $_SESSION['current_question_index'] = -1; // Set to -1 to indicate end of game
 }
 
