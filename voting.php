@@ -148,3 +148,4 @@ function validateBetAmount(input){
     }
 }
 </script>
+<?php print_r($_SESSION);?>

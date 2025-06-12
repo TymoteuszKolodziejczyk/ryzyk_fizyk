@@ -31,4 +31,5 @@
 
 <?php
 	mysqli_close($conn);
+    print_r($_SESSION);
 ?>

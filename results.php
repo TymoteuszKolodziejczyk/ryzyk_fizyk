@@ -71,3 +71,4 @@ unset($_SESSION['bets']);
     <?php endif; ?>
 </body>
 </html>
+<?php print_r($_SESSION);?>

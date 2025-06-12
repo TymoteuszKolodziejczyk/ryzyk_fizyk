@@ -116,4 +116,4 @@ if (!empty($answers)) {
         input.type = "password"
     }
 </script>
-<?php mysqli_close($conn); ?>
+<?php mysqli_close($conn); print_r($_SESSION);?>
